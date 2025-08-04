@@ -1,37 +1,99 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌍 AI-Powered Travel Planner App
 
-## Getting Started
+### 🚀 Features
 
-First, run the development server:
+- **🧠 AI Itinerary Generator**
+  Personalized travel plans based on:
+  - User's destination
+  - Duration
+  - Interests (e.g. adventure, culture, food, nature)
+  - Budget
+- **🎯 Smart Recommendations**
+  Real-time suggestions for:
+  - Hotels
+  - Restaurants
+  - Tourist attractions
+  - Local events
+- **🗓️ Visual Day Planner**
+  Drag-and-drop interface to arrange daily schedules with:
+  - Time estimation
+  - Map integration
+  - Travel time calculation
+- **📍 Interactive Map**
+  Auto-plots the full itinerary using Google Maps / Mapbox API, showing:
+  - Locations
+  - Routes
+  - Nearby alternatives
+- **💬 AI Chat Assistant**
+  Travel-specific chatbot for:
+  - FAQs
+  - Suggestions
+  - Booking assistance
+- **🌐 Multi-language & Localization**
+  Support for multiple languages and currency conversion.
+- **📦 Save & Share Trips**
+  Authenticated users can:
+  - Save plans
+  - Export as PDF
+  - Share public trip links
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+### 🛠️ Tech Stack
+
+| Layer          | Technology                       |
+| -------------- | -------------------------------- |
+| **Frontend**   | Next.js, Tailwind CSS, Shadcn/UI |
+| **Backend**    | Node.js (API routes in Next.js)  |
+| **AI Layer**   | OpenAI API (GPT-4 / GPT-3.5)     |
+| **Database**   | PostgreSQL / MongoDB (flexible)  |
+| **Map APIs**   | Google Maps API / Mapbox         |
+| **Auth**       | NextAuth / Firebase Auth         |
+| **Deployment** | Vercel / Render / Railway        |
+
+---
+
+### 💡 Future Enhancements
+
+- ✅ Recommender system based on previous trips
+- ✅ Offline access via PWA
+- ✅ Booking integration (flights, hotels, tours)
+- ✅ Collaborate on trips with friends in real-time
+- ✅ Voice-based assistant
+- ✅ Weather forecast integration per location
+- ✅ Dynamic budget calculator with currency sync
+
+---
+
+### 📁 Project Structure (if using Next.js)
+
+```
+bash
+CopyEdit
+/app
+  └─ /trip
+  └─ /api
+  └─ layout.tsx
+  └─ page.tsx
+/components
+/lib
+/services
+/types
+/utils
+/public
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🧪 Testing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Unit tests with Jest
+- Integration tests with Playwright / Cypress
+- Linting and Type Safety with ESLint + TypeScript
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+### 📸 Screenshots (optional)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ai-travel-planer
+Add high-quality UI mockups, trip generation demos, or maps.

@@ -1,103 +1,128 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [destination, setDestination] = useState("");
+  const [budget, setBudget] = useState("mid");
+  const [mood, setMood] = useState("adventurous");
+  const [itinerary, setItinerary] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setItinerary("");
+
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ destination, budget, mood }),
+      });
+      const data = await res.json();
+      if (data.error) setError(data.error);
+      else setItinerary(data.itinerary);
+    } catch {
+      setError("Failed to fetch itinerary");
+    }
+    setLoading(false);
+  }
+
+  return (
+    <main className="min-h-screen bg-gradient-to-tr from-blue-100 via-indigo-100 to-purple-100 flex flex-col items-center p-6">
+      <div className="w-full max-w-3xl bg-white rounded-3xl shadow-lg p-10">
+        <h1 className="text-4xl font-extrabold text-indigo-700 mb-8 text-center">
+          AI Travel Planner
+        </h1>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label
+              htmlFor="destination"
+              className="block text-lg font-semibold mb-2 text-gray-700"
+            >
+              Destination
+            </label>
+            <input
+              id="destination"
+              type="text"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              required
+              placeholder="e.g., Brahmanbaria, Bangladesh"
+              className="w-full border border-indigo-300 rounded-lg px-4 py-3 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          </div>
+
+          <div>
+            <label
+              htmlFor="budget"
+              className="block text-lg font-semibold mb-2 text-gray-700"
+            >
+              Budget
+            </label>
+            <select
+              id="budget"
+              value={budget}
+              onChange={(e) => setBudget(e.target.value)}
+              className="w-full border border-indigo-300 rounded-lg px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            >
+              <option value="low">Low</option>
+              <option value="mid">Mid</option>
+              <option value="luxury">Luxury</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="mood"
+              className="block text-lg font-semibold mb-2 text-gray-700"
+            >
+              Mood
+            </label>
+            <select
+              id="mood"
+              value={mood}
+              onChange={(e) => setMood(e.target.value)}
+              className="w-full border border-indigo-300 rounded-lg px-4 py-3 text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+            >
+              <option value="adventurous">Adventurous</option>
+              <option value="relaxing">Relaxing</option>
+              <option value="cultural">Cultural</option>
+              <option value="spiritual">Spiritual</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg shadow-md transition"
           >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+            {loading ? "Generating Itinerary..." : "Generate Itinerary"}
+          </button>
+        </form>
+
+        {error && (
+          <p className="mt-6 text-center text-red-600 font-medium">{error}</p>
+        )}
+
+        {itinerary && (
+          <section className="mt-10 bg-indigo-50 border border-indigo-300 rounded-xl p-6 whitespace-pre-wrap text-gray-900 leading-relaxed shadow-inner">
+            <h2 className="text-2xl font-bold mb-4 text-indigo-700">
+              Your Itinerary
+            </h2>
+            <p>{itinerary}</p>
+          </section>
+        )}
+      </div>
+
+      <footer className="mt-12 text-center text-gray-500 text-sm">
+        Powered by Ollama & Next.js — Crafted by{" "}
+        <span className="font-semibold">chief</span>
       </footer>
-    </div>
+    </main>
   );
 }
